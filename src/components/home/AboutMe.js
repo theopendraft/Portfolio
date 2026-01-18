@@ -24,7 +24,8 @@ export default function AboutMe() {
   // Animated counter component
   const AnimatedCounter = ({ value, suffix = "" }) => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-50px" });
+    const hasAnimated = useRef(false);
+    const isInView = useInView(ref, { once: false, margin: "-50px" });
     const motionValue = useMotionValue(0);
     const springValue = useSpring(motionValue, {
       stiffness: 50,
@@ -33,7 +34,8 @@ export default function AboutMe() {
     const [displayValue, setDisplayValue] = useState("0");
 
     useEffect(() => {
-      if (isInView) {
+      if (isInView && !hasAnimated.current) {
+        hasAnimated.current = true;
         // Extract numeric value from string (e.g., "50+" -> 50)
         const numericValue = parseInt(value.toString().replace(/\D/g, "")) || 0;
         motionValue.set(numericValue);
