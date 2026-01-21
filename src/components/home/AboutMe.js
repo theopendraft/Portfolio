@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useInView } from "framer-motion";
 import Link from "next/link";
 import { useCursor } from "@/hooks/useCursor";
@@ -25,7 +25,11 @@ export default function AboutMe() {
   const AnimatedCounter = ({ value, suffix = "" }) => {
     const ref = useRef(null);
     const hasAnimated = useRef(false);
-    const isInView = useInView(ref, { once: false, margin: "-50px" });
+    const numericValue = useMemo(
+      () => parseInt(value.toString().replace(/\D/g, "")) || 0,
+      [value],
+    );
+    const isInView = useInView(ref, { once: true, margin: "-50px" });
     const motionValue = useMotionValue(0);
     const springValue = useSpring(motionValue, {
       stiffness: 50,
@@ -36,11 +40,9 @@ export default function AboutMe() {
     useEffect(() => {
       if (isInView && !hasAnimated.current) {
         hasAnimated.current = true;
-        // Extract numeric value from string (e.g., "50+" -> 50)
-        const numericValue = parseInt(value.toString().replace(/\D/g, "")) || 0;
         motionValue.set(numericValue);
       }
-    }, [isInView, motionValue, value]);
+    }, [isInView, motionValue, numericValue]);
 
     useEffect(() => {
       const unsubscribe = springValue.on("change", (latest) => {
@@ -48,6 +50,13 @@ export default function AboutMe() {
       });
       return () => unsubscribe();
     }, [springValue, suffix]);
+
+    // Ensure value stays populated after first run so hover/re-renders don't reset
+    useEffect(() => {
+      if (hasAnimated.current && displayValue === "0") {
+        setDisplayValue(numericValue.toString() + suffix);
+      }
+    }, [displayValue, numericValue, suffix]);
 
     return <span ref={ref}>{displayValue}</span>;
   };
@@ -68,7 +77,7 @@ export default function AboutMe() {
   // Contact info
   const contactInfo = [
     { label: "Phone", value: "+1 (555) 123-4567" },
-    { label: "Email", value: "hello@duncanrobert.com" },
+    { label: "Email", value: "hello@Pankajrobert.com" },
   ];
 
   // Social links
@@ -113,7 +122,7 @@ export default function AboutMe() {
                 theme === "dark" ? "text-zinc-400" : "text-gray-600"
               }`}
             >
-              Hi, I'm Duncan Robert — a digital designer and developer focused
+              Hi, I'm Pankaj Robert — a digital designer and developer focused
               on building meaningful and reliable digital products that make a
               real impact.
             </motion.p>
@@ -231,7 +240,7 @@ export default function AboutMe() {
               >
                 <AnimatedCard
                   imageSrc={null}
-                  alt="Duncan Robert - About Me"
+                  alt="Pankaj Robert - About Me"
                   rotateOnScroll={false}
                   className="w-72 h-100"
                 />

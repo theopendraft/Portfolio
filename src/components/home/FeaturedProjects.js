@@ -358,7 +358,7 @@ function StickyCard({
         height: "calc(100vh - 160px)",
       }}
     >
-      <div className="max-w-screen mx-auto w-full h-full">
+      <div className="max-w-7xl mx-auto w-full h-7xl">
         {/* Project Card */}
         <a
           href={project.link}

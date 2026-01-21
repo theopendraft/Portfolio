@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Duncan Robert | Full-Stack Developer & Digital Designer",
+  title: "Pankaj Yadav | Full-Stack Developer & Digital Designer",
   description:
     "Experienced full-stack developer and digital designer creating meaningful digital experiences with modern web technologies. Specializing in React, Next.js, and user-centered design.",
   keywords: [
@@ -30,9 +30,9 @@ export const metadata = {
     "Next.js",
     "UI/UX",
   ],
-  authors: [{ name: "Duncan Robert" }],
+  authors: [{ name: "Pankaj Yadav" }],
   openGraph: {
-    title: "Duncan Robert | Full-Stack Developer & Digital Designer",
+    title: "Pankaj Yadav | Full-Stack Developer & Digital Designer",
     description:
       "Creating meaningful digital experiences with modern web technologies",
     type: "website",

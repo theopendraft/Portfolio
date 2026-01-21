@@ -154,7 +154,7 @@ export default function SharedAnimatedCard() {
     {
       image: "/images/hero-card.jpg", // TODO: Replace with actual image path
       placeholder: "👤",
-      name: "Duncan Robert",
+      name: "Pankaj Yadav",
       subtitle: "Designer & Developer",
     },
     {

@@ -1,4 +1,4 @@
-# Duncan Robert - Portfolio Website
+# Pankaj Robert - Portfolio Website
 
 A modern, high-performance portfolio website built with Next.js, featuring custom cursor interactions, smooth animations, and a cinematic design aesthetic.
 

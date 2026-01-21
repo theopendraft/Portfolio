@@ -11,7 +11,7 @@ export const testimonials = [
     role: "CEO, TechStart Inc",
     avatar: "/images/avatars/sarah.jpg", // TODO: Replace with actual image
     rating: 5,
-    text: "Duncan transformed our entire digital presence. His attention to detail and ability to understand our vision was exceptional. The results exceeded our expectations.",
+    text: "Pankaj transformed our entire digital presence. His attention to detail and ability to understand our vision was exceptional. The results exceeded our expectations.",
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ export const testimonials = [
     role: "Founder, Innovate Labs",
     avatar: "/images/avatars/michael.jpg", // TODO: Replace with actual image
     rating: 5,
-    text: "Working with Duncan was a game-changer for our startup. His technical expertise and creative problem-solving helped us launch on time and under budget.",
+    text: "Working with Pankaj was a game-changer for our startup. His technical expertise and creative problem-solving helped us launch on time and under budget.",
   },
   {
     id: 4,
@@ -35,7 +35,7 @@ export const testimonials = [
     role: "Product Manager, CloudFlow",
     avatar: "/images/avatars/emily.jpg", // TODO: Replace with actual image
     rating: 5,
-    text: "Exceptional quality and professionalism. Duncan delivered a beautiful, performant application that our users love. Highly recommend!",
+    text: "Exceptional quality and professionalism. Pankaj delivered a beautiful, performant application that our users love. Highly recommend!",
   },
   {
     id: 5,
@@ -50,6 +50,6 @@ export const testimonials = [
     role: "CTO, DataStream",
     avatar: "/images/avatars/david.jpg", // TODO: Replace with actual image
     rating: 5,
-    text: "Duncan's ability to translate complex requirements into elegant solutions is remarkable. He's now our go-to developer for critical projects.",
+    text: "Pankaj's ability to translate complex requirements into elegant solutions is remarkable. He's now our go-to developer for critical projects.",
   },
 ];

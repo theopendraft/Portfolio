@@ -19,7 +19,7 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className={`relative min-h-screen flex items-center justify-center px-8 py-24 overflow-hidden transition-colors duration-500 ${
+      className={`relative min-h-screen flex items-center justify-center px-6 sm:px-10 lg:px-16 py-20 lg:py-24 overflow-hidden transition-colors duration-500 ${
         theme === "dark" ? "bg-[#1A1A1A]" : "bg-gray-50"
       }`}
       style={{ position: "relative" }}
@@ -49,10 +49,10 @@ export default function HeroSection() {
         />
       </motion.button>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+      <div className="relative z-10 w-2/3 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-center">
           {/* LEFT TEXT BLOCK */}
-          <div className="flex flex-col justify-center space-y-4 lg:text-right">
+          <div className="flex flex-col justify-center space-y-4 lg:text-right max-w-[560px] justify-self-start lg:justify-self-end">
             <motion.p
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -65,7 +65,7 @@ export default function HeroSection() {
                 theme === "dark" ? "text-zinc-500" : "text-gray-500"
               }`}
             >
-              Duncan Robert
+              Pankaj Yadav
             </motion.p>
             <motion.h1
               initial={{ opacity: 0, x: -20 }}
@@ -75,7 +75,7 @@ export default function HeroSection() {
                 delay: 0.3,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className={`text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight leading-none ${
+              className={`text-6xl sm:text-7xl lg:text-8xl xl:text-8xl font-bold tracking-tight leading-none ${
                 theme === "dark" ? "text-white" : "text-blue-500"
               }`}
             >
@@ -83,12 +83,15 @@ export default function HeroSection() {
             </motion.h1>
           </div>
 
+          {/* EMPTY CENTER COLUMN TO RESERVE SPACE FOR FLOATING CARD */}
+          <div className="hidden lg:block h-[520px]" aria-hidden="true" />
+
           {/* CENTER IMAGE CARD - Mobile only (desktop uses shared card) */}
           {isMobile && (
             <div className="flex justify-center">
               <AnimatedCard
                 imageSrc={null}
-                alt="Duncan Robert - Digital Designer"
+                alt="Pankaj Yadav - Digital Designer"
                 rotateOnScroll={false}
                 className="w-80 h-120"
               >
@@ -112,7 +115,7 @@ export default function HeroSection() {
           )}
 
           {/* RIGHT TEXT BLOCK */}
-          <div className="flex flex-col justify-center space-y-6">
+          <div className="flex flex-col justify-center space-y-6 max-w-[560px] justify-self-start">
             <motion.h1
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -121,7 +124,7 @@ export default function HeroSection() {
                 delay: 0.3,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className={`text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight leading-none ${
+              className={`text-6xl sm:text-7xl lg:text-8xl xl:text-8xl font-bold tracking-tight leading-none ${
                 theme === "dark" ? "text-white" : "text-blue-500"
               }`}
             >
@@ -139,7 +142,7 @@ export default function HeroSection() {
                 theme === "dark" ? "text-zinc-400" : "text-gray-600"
               }`}
             >
-              I'm a US-based digital designer and Framer developer
+              I'm a India-based digital designer and Web developer
             </motion.p>
           </div>
         </div>
