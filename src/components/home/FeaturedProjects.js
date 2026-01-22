@@ -56,7 +56,7 @@ export default function FeaturedProjects() {
   return (
     <section
       className={`relative transition-colors duration-500 ${
-        theme === "dark" ? "bg-black" : "bg-gray-100"
+        theme === "dark" ? "bg-transparent" : "bg-gray-100"
       }`}
     >
       {/* Section Intro */}

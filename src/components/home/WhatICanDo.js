@@ -80,7 +80,7 @@ export default function WhatICanDo() {
     <section
       ref={sectionRef}
       className={`relative min-h-screen flex items-center justify-center px-8 py-24 transition-colors duration-500 ${
-        theme === "dark" ? "bg-zinc-950" : "bg-gray-50"
+        theme === "dark" ? "bg-transparent" : "bg-gray-50"
       }`}
       style={{ position: "relative" }}
     >

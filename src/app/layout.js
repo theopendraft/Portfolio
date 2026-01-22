@@ -8,6 +8,7 @@ import { CursorProvider } from "@/hooks/useCursor";
 import SharedAnimatedCard from "@/components/shared/SharedAnimatedCard";
 import { AnimatedCardProvider } from "@/contexts/AnimatedCardContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import NoiseOverlay from "@/components/shared/NoiseOverlay";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -71,6 +72,7 @@ export default function RootLayout({ children }) {
           <CursorProvider>
             <AnimatedCardProvider>
               <CursorFollower />
+              <NoiseOverlay />
               <SharedAnimatedCard />
               <Navbar />
               {children}

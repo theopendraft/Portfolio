@@ -177,7 +177,7 @@ export default function Footer() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="mt-16 pt-8 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-zinc-600">
+          <div className="mt-16 pt-8 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-zinc-600 mb-0 md:mb-14">
             <p>
               © {new Date().getFullYear()} Pankaj Yadav. All rights reserved.
             </p>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAnimatedCardContext } from "@/contexts/AnimatedCardContext";
+import ShapeBlur from "@/components/shared/ShapeBlur";
 
 /**
  * SharedAnimatedCard - Floating card with section-based rotations
@@ -19,6 +20,8 @@ export default function SharedAnimatedCard() {
   const [isMobile, setIsMobile] = useState(false);
   const [isHomePage, setIsHomePage] = useState(true);
   const { sections } = useAnimatedCardContext();
+  const pixelRatio =
+    typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
 
   const { scrollY } = useScroll();
 
@@ -239,6 +242,20 @@ export default function SharedAnimatedCard() {
             </div>
           </div>
         </motion.div>
+
+                      {/* Shape blur just behind the Hi badge */}
+        <div className="absolute -bottom-36 -left-37 w-85 h-85 pointer-events-none">
+                        <ShapeBlur
+                          variation={0}
+                          pixelRatioProp={pixelRatio}
+                          shapeSize={0.5}
+                          roundness={0.5}
+                          borderSize={0.05}
+                          circleSize={0.25}
+                          circleEdge={1}
+                          theme={theme}
+                        />
+         </div>
 
         {/* Hello Icon (Bottom-left) */}
         <motion.div

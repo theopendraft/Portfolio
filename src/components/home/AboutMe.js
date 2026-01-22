@@ -57,7 +57,7 @@ export default function AboutMe() {
     <section
       ref={sectionRef}
       className={`relative min-h-screen flex items-center justify-center px-4 sm:px-8 py-16 sm:py-24 transition-colors duration-500 ${
-        theme === "dark" ? "bg-zinc-900" : "bg-white"
+        theme === "dark" ? "bg-transparent" : "bg-white"
       }`}
       style={{ position: "relative" }}
     >

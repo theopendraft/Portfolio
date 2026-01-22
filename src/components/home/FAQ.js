@@ -61,7 +61,7 @@ export default function FAQ() {
   return (
     <section
       className={`relative px-4 sm:px-8 py-16 sm:py-24 lg:py-32 transition-colors duration-500 ${
-        theme === "dark" ? "bg-black" : "bg-gray-50"
+        theme === "dark" ? "bg-transparent" : "bg-gray-50"
       }`}
     >
       <div className="relative z-10 w-full max-w-7xl mx-auto">

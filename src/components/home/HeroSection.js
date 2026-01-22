@@ -26,7 +26,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       className={`relative min-h-screen flex items-center justify-center px-6 sm:px-10 lg:px-16 py-20 lg:py-24 overflow-hidden transition-colors duration-500 ${
-        theme === "dark" ? "bg-[#1A1A1A]" : "bg-gray-50"
+        theme === "dark" ? "bg-transparent" : "bg-gray-50"
       }`}
       style={{ position: "relative" }}
     >

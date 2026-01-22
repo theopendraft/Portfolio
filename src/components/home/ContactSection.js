@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useCursor } from "@/hooks/useCursor";
 import { useTheme } from "@/contexts/ThemeContext";
+import ShapeBlur from "@/components/shared/ShapeBlur";
 
 /**
  * ContactSection - Conversion-focused contact form
@@ -18,6 +19,8 @@ import { useTheme } from "@/contexts/ThemeContext";
 export default function ContactSection() {
   const { setCursorType, resetCursor } = useCursor();
   const { theme } = useTheme();
+  const pixelRatio =
+    typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -102,9 +105,10 @@ export default function ContactSection() {
   return (
     <section
       className={`relative px-4 sm:px-8 py-16 sm:py-24 lg:py-32 transition-colors duration-500 ${
-        theme === "dark" ? "bg-zinc-950" : "bg-white"
+        theme === "dark" ? "bg-transparent" : "bg-white"
       }`}
     >
+
       <div className="relative z-10 w-full max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* LEFT COLUMN - Portrait with Hi Badge */}
@@ -112,7 +116,7 @@ export default function ContactSection() {
             <div className="relative w-full max-w-md">
               {/* Portrait Card */}
               <div
-                className={`relative w-full  rounded-3xl overflow-hidden border shadow-2xl aspect-3/4 ${
+                className={`relative w-full  rounded-3xl overflow-hidden border aspect-3/4 ${
                   theme === "dark"
                     ? "bg-linear-to-br from-zinc-800 to-zinc-900 border-zinc-700"
                     : "bg-linear-to-br from-gray-200 to-gray-300 border-gray-400"
@@ -131,6 +135,20 @@ export default function ContactSection() {
                     </p>
                   </div>
                 </div>
+              </div>
+
+              {/* Shape blur just behind the Hi badge */}
+              <div className="absolute -bottom-47 -left-47 w-114 h-114 pointer-events-none">
+                <ShapeBlur
+                  variation={0}
+                  pixelRatioProp={pixelRatio}
+                  shapeSize={0.5}
+                  roundness={0.5}
+                  borderSize={0.05}
+                  circleSize={0.25}
+                  circleEdge={1}
+                  theme={theme}
+                />
               </div>
 
               {/* Hi Badge - Bottom Left */}
@@ -375,10 +393,10 @@ export default function ContactSection() {
                   whileTap={{ scale: 0.98 }}
                   onMouseEnter={() => setCursorType("active")}
                   onMouseLeave={resetCursor}
-                  className={`px-10 py-4 bg-transparent border-2 font-bold text-base uppercase tracking-wider rounded-full transition-all duration-300 shadow-lg ${
+                  className={`px-10 py-4 bg-transparent border-2 font-bold text-base uppercase tracking-wider rounded-full transition-all duration-300 ${
                     theme === "dark"
-                      ? "border-[#C4F047] text-[#C4F047] hover:bg-[#C4F047] hover:text-black hover:shadow-[0_0_30px_rgba(196,240,71,0.4)]"
-                      : "border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]"
+                      ? "border-[#C4F047] text-[#C4F047] hover:bg-[#C4F047] hover:text-black "
+                      : "border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white "
                   }`}
                 >
                   Submit
