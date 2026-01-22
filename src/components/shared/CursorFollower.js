@@ -47,15 +47,13 @@ export default function CursorFollower() {
 
     checkTouchDevice();
 
-    // Hide default cursor on desktop
-    if (!isTouchDevice) {
-      document.body.style.cursor = "none";
-    }
+    // Keep native cursor visible; no manual hiding
+    document.body.style.cursor = "auto";
 
     return () => {
       document.body.style.cursor = "auto";
     };
-  }, [isTouchDevice]);
+  }, []);
 
   useEffect(() => {
     // Track mouse movement
@@ -100,13 +98,13 @@ export default function CursorFollower() {
           height: 40,
           backgroundColor:
             theme === "dark"
-              ? "rgba(196, 240, 71, 0.3)"
-              : "rgba(59, 130, 246, 0.3)",
+              ? "rgba(196, 240, 71, 0.35)"
+              : "rgba(26, 35, 58, 0.55)",
           border:
             theme === "dark"
-              ? "2px solid rgba(196, 240, 71, 0.8)"
-              : "2px solid rgba(59, 130, 246, 0.8)",
-          mixBlendMode: "screen",
+              ? "2px solid rgba(196, 240, 71, 0.85)"
+              : "2px solid rgba(26, 35, 58, 0.8)",
+          mixBlendMode: "difference", // invert for contrast over text
         };
       case "active":
         return {
@@ -115,19 +113,26 @@ export default function CursorFollower() {
           backgroundColor:
             theme === "dark"
               ? "rgba(196, 240, 71, 0.5)"
-              : "rgba(59, 130, 246, 0.5)",
+              : "rgba(26, 35, 58, 0.65)",
           border:
             theme === "dark"
               ? "3px solid rgba(196, 240, 71, 1)"
-              : "3px solid rgba(59, 130, 246, 1)",
-          mixBlendMode: "screen",
+              : "3px solid rgba(26, 35, 58, 1)",
+          mixBlendMode: "difference",
         };
       default:
         return {
           width: 12,
           height: 12,
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-          border: "1px solid rgba(255, 255, 255, 0.3)",
+          backgroundColor:
+            theme === "dark"
+              ? "rgba(255, 255, 255, 0.85)"
+              : "rgba(26, 35, 58, 0.8)",
+          border:
+            theme === "dark"
+              ? "1px solid rgba(255, 255, 255, 0.35)"
+              : "1px solid rgba(15, 23, 42, 0.35)",
+          mixBlendMode: theme === "dark" ? "normal" : "difference",
         };
     }
   };

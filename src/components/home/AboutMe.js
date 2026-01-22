@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useInView } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useCursor } from "@/hooks/useCursor";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -21,46 +21,6 @@ export default function AboutMe() {
   const { registerSection, isMobile } = useAnimatedCardContext();
   const { theme } = useTheme();
 
-  // Animated counter component
-  const AnimatedCounter = ({ value, suffix = "" }) => {
-    const ref = useRef(null);
-    const hasAnimated = useRef(false);
-    const numericValue = useMemo(
-      () => parseInt(value.toString().replace(/\D/g, "")) || 0,
-      [value],
-    );
-    const isInView = useInView(ref, { once: true, margin: "-50px" });
-    const motionValue = useMotionValue(0);
-    const springValue = useSpring(motionValue, {
-      stiffness: 50,
-      damping: 20,
-    });
-    const [displayValue, setDisplayValue] = useState("0");
-
-    useEffect(() => {
-      if (isInView && !hasAnimated.current) {
-        hasAnimated.current = true;
-        motionValue.set(numericValue);
-      }
-    }, [isInView, motionValue, numericValue]);
-
-    useEffect(() => {
-      const unsubscribe = springValue.on("change", (latest) => {
-        setDisplayValue(Math.floor(latest).toString() + suffix);
-      });
-      return () => unsubscribe();
-    }, [springValue, suffix]);
-
-    // Ensure value stays populated after first run so hover/re-renders don't reset
-    useEffect(() => {
-      if (hasAnimated.current && displayValue === "0") {
-        setDisplayValue(numericValue.toString() + suffix);
-      }
-    }, [displayValue, numericValue, suffix]);
-
-    return <span ref={ref}>{displayValue}</span>;
-  };
-
   useEffect(() => {
     if (sectionRef.current) {
       registerSection("ABOUT", sectionRef.current);
@@ -69,21 +29,21 @@ export default function AboutMe() {
 
   // Stats data
   const stats = [
-    { value: "50+", label: "Projects Completed" },
-    { value: "5", label: "Years Experience" },
-    { value: "30+", label: "Happy Clients" },
+    { value: "23+", label: "Projects Completed" },
+    { value: "1", label: "Years Experience" },
+    { value: "10+", label: "Happy Clients" },
   ];
 
   // Contact info
   const contactInfo = [
-    { label: "Phone", value: "+1 (555) 123-4567" },
-    { label: "Email", value: "hello@Pankajrobert.com" },
+    { label: "Phone", value: "+91 9174867756" },
+    { label: "Email", value: "py898969@gmail.com" },
   ];
 
   // Social links
   const socialLinks = [
-    { name: "GitHub", url: "https://github.com", icon: "GH" },
-    { name: "LinkedIn", url: "https://linkedin.com", icon: "IN" },
+    { name: "GitHub", url: "https://github/theopendraft.com", icon: "GH" },
+    { name: "LinkedIn", url: "https://www.linkedin.com/in/pankaj-yadav-5998b3249/", icon: "IN" },
     { name: "Twitter", url: "https://twitter.com", icon: "X" },
   ];
 
@@ -146,10 +106,7 @@ export default function AboutMe() {
                       theme === "dark" ? "text-[#C4F047]" : "text-blue-500"
                     }`}
                   >
-                    <AnimatedCounter
-                      value={stat.value}
-                      suffix={stat.value.toString().replace(/[0-9]/g, "")}
-                    />
+                    {stat.value}
                   </div>
                   <div
                     className={`text-xs sm:text-sm leading-tight ${
