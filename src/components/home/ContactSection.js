@@ -24,6 +24,13 @@ export default function ContactSection() {
     service: "",
     message: "",
   });
+
+    const titleStyle = {
+    fontFamily: "'Haffer', sans-serif",
+    lineHeight: "100%",
+    letterSpacing: "-0.01em",
+  };
+
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState(null); // 'success' | 'error' | null
 
@@ -165,6 +172,7 @@ export default function ContactSection() {
                 className={`text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight uppercase leading-tight ${
                   theme === "dark" ? "text-white" : "text-gray-900"
                 }`}
+                style={titleStyle}
               >
                 Let's Work Together
               </motion.h2>

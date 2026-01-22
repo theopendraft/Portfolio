@@ -82,7 +82,7 @@ export default function Footer() {
                 <h3 className={`text-3xl font-bold mb-2 ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>
-                  Pankaj Robert
+                  Pankaj Yadav
                 </h3>
                 <p className={`text-lg ${
                   theme === 'dark' ? 'text-zinc-400' : 'text-gray-600'
@@ -94,8 +94,8 @@ export default function Footer() {
               <div className={`space-y-2 ${
                 theme === 'dark' ? 'text-zinc-500' : 'text-gray-500'
               }`}>
-                <p>hello@Pankajrobert.com</p>
-                <p>San Francisco, CA / Remote</p>
+                <p>py898969@gmail.com.com</p>
+                <p>Chennai, India / Remote</p>
               </div>
 
               <p className={`text-sm max-w-md ${
@@ -179,7 +179,7 @@ export default function Footer() {
           {/* Bottom Bar */}
           <div className="mt-16 pt-8 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-zinc-600">
             <p>
-              © {new Date().getFullYear()} Pankaj Robert. All rights reserved.
+              © {new Date().getFullYear()} Pankaj Yadav. All rights reserved.
             </p>
             <div className="flex gap-6">
               <Link href="/privacy" className="hover:text-zinc-400 transition-colors">

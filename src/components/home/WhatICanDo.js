@@ -24,6 +24,12 @@ export default function WhatICanDo() {
   const { theme } = useTheme();
   const [openIndex, setOpenIndex] = useState(null);
 
+   const titleStyle = {
+    fontFamily: "'Haffer', sans-serif",
+    lineHeight: "100%",
+    letterSpacing: "-0.03em",
+  };
+
   useEffect(() => {
     if (sectionRef.current) {
       registerSection("SKILLS", sectionRef.current);
@@ -92,6 +98,7 @@ export default function WhatICanDo() {
                 className={`text-5xl lg:text-6xl font-bold tracking-tight ${
                   theme === "dark" ? "text-white" : "text-gray-900"
                 }`}
+                style={titleStyle}
               >
                 What I Can Do
               </motion.h2>

@@ -1,4 +1,5 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -8,14 +9,37 @@ import SharedAnimatedCard from "@/components/shared/SharedAnimatedCard";
 import { AnimatedCardProvider } from "@/contexts/AnimatedCardContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const haffer = localFont({
+  variable: "--font-haffer",
+  src: [
+    {
+      path: "../../public/fonts/haffer-font/Haffer-TRIAL-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/haffer-font/Haffer-TRIAL-Bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/haffer-font/Haffer-TRIAL-RegularItalic.otf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/haffer-font/Haffer-TRIAL-BoldItalic.otf",
+      weight: "700",
+      style: "italic",
+    },
+  ],
+  display: "swap",
 });
 
 export const metadata = {
@@ -42,9 +66,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${inter.variable} ${haffer.variable} antialiased`}>
         <ThemeProvider>
           <CursorProvider>
             <AnimatedCardProvider>

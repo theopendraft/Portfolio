@@ -21,6 +21,12 @@ export default function AboutMe() {
   const { registerSection, isMobile } = useAnimatedCardContext();
   const { theme } = useTheme();
 
+    const titleStyle = {
+    fontFamily: "'Haffer', sans-serif",
+    lineHeight: "100%",
+    letterSpacing: "-0.03em",
+  };
+
   useEffect(() => {
     if (sectionRef.current) {
       registerSection("ABOUT", sectionRef.current);
@@ -68,6 +74,7 @@ export default function AboutMe() {
               className={`text-6xl lg:text-7xl font-bold tracking-tight uppercase ${
                 theme === "dark" ? "text-white" : "text-gray-900"
               }`}
+              style={titleStyle}
             >
               ABOUT ME
             </motion.h2>

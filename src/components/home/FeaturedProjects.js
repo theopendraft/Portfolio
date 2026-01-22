@@ -23,6 +23,12 @@ export default function FeaturedProjects() {
   const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef(null);
 
+  const titleStyle = {
+    fontFamily: "'Haffer', sans-serif",
+    lineHeight: "100%",
+    letterSpacing: "-0.01em",
+  };
+
   useEffect(() => {
     // Check for mobile devices
     const checkMobile = () => {
@@ -63,6 +69,7 @@ export default function FeaturedProjects() {
           className={`text-6xl lg:text-7xl font-bold tracking-tight uppercase mb-6 ${
             theme === "dark" ? "text-white" : "text-gray-900"
           }`}
+          style={titleStyle}
         >
           Featured Projects
         </motion.h2>
@@ -161,6 +168,7 @@ export default function FeaturedProjects() {
                           ? "text-white group-hover:text-[#C4F047]"
                           : "text-gray-900 group-hover:text-blue-500"
                       }`}
+                      style={titleStyle}
                     >
                       {project.title}
                     </h3>
@@ -246,6 +254,7 @@ export default function FeaturedProjects() {
                   setCursorType={setCursorType}
                   resetCursor={resetCursor}
                   theme={theme}
+                  titleStyle={titleStyle}
                 />
               );
             })}
@@ -316,6 +325,7 @@ function StickyCard({
   setCursorType,
   resetCursor,
   theme,
+  titleStyle,
 }) {
   const cardRef = useRef(null);
 
@@ -427,6 +437,7 @@ function StickyCard({
                     ? "text-white group-hover:text-[#C4F047]"
                     : "text-gray-900 group-hover:text-blue-500"
                 }`}
+                style={titleStyle}
               >
                 {project.title}
               </h3>

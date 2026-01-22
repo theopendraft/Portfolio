@@ -5,10 +5,11 @@ import FeaturedProjects from "@/components/home/FeaturedProjects";
 import Testimonials from "@/components/home/Testimonials";
 import FAQ from "@/components/home/FAQ";
 import ContactSection from "@/components/home/ContactSection";
+import GradualBlur from "@/components/shared/GradualBlur";
 
 export default function Home() {
   return (
-    <main>
+    <main className="relative">
       <HeroSection />
       <WhatICanDo />
       <AboutMe />
@@ -16,6 +17,16 @@ export default function Home() {
       <Testimonials />
       <FAQ />
       <ContactSection />
+      <GradualBlur
+        target="page"
+        position="bottom"
+        height="7rem"
+        strength={2.5}
+        divCount={4}
+        curve="bezier"
+        exponential
+        opacity={1}
+      />
     </main>
   );
 }

@@ -11,6 +11,12 @@ export default function HeroSection() {
   const { registerSection, isMobile } = useAnimatedCardContext();
   const { theme, toggleTheme } = useTheme();
 
+  const titleStyle = {
+    fontFamily: "'Haffer', sans-serif",
+    lineHeight: "100%",
+    letterSpacing: "-0.03em",
+  };
+
   useEffect(() => {
     if (sectionRef.current) {
       registerSection("HERO", sectionRef.current);
@@ -31,7 +37,7 @@ export default function HeroSection() {
       <motion.button
         onClick={toggleTheme}
         whileTap={{ scale: 0.95 }}
-        className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 w-9 h-5 rounded-full shadow-lg flex items-center transition-all duration-300 cursor-pointer ${
+        className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-[1201] w-9 h-5 rounded-full shadow-lg flex items-center transition-all duration-300 cursor-pointer ${
           theme === "dark"
             ? "bg-[#C4F047] justify-end"
             : "bg-blue-400 justify-start"
@@ -52,7 +58,7 @@ export default function HeroSection() {
       <div className="relative z-10 w-2/3 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-center">
           {/* LEFT TEXT BLOCK */}
-          <div className="flex flex-col justify-center space-y-4 lg:text-right max-w-[560px] justify-self-start lg:justify-self-end">
+          <div className="flex flex-col justify-center  lg:text-right max-w-[560px] justify-self-start lg:justify-self-end">
             <motion.p
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -61,9 +67,11 @@ export default function HeroSection() {
                 delay: 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className={`text-sm uppercase tracking-[0.3em] font-medium ${
+              className={`text-sm uppercase tracking-[0.3em] font-medium text-left ${
                 theme === "dark" ? "text-zinc-500" : "text-gray-500"
-              }`}
+              }
+              
+              `}
             >
               Pankaj Yadav
             </motion.p>
@@ -78,6 +86,7 @@ export default function HeroSection() {
               className={`text-6xl sm:text-7xl lg:text-8xl xl:text-8xl font-bold tracking-tight leading-none ${
                 theme === "dark" ? "text-white" : "text-blue-500"
               }`}
+              style={titleStyle}
             >
               DIGITAL
             </motion.h1>
@@ -115,7 +124,7 @@ export default function HeroSection() {
           )}
 
           {/* RIGHT TEXT BLOCK */}
-          <div className="flex flex-col justify-center space-y-6 max-w-[560px] justify-self-start">
+          <div className="flex flex-col justify-center max-w-[560px] justify-self-start">
             <motion.h1
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -124,9 +133,10 @@ export default function HeroSection() {
                 delay: 0.3,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className={`text-6xl sm:text-7xl lg:text-8xl xl:text-8xl font-bold tracking-tight leading-none ${
+              className={`text-6xl sm:text-7xl lg:text-8xl xl:text-8xl font-bold tracking-tight leading-none pt-0 md:pt-12 ${
                 theme === "dark" ? "text-white" : "text-blue-500"
               }`}
+              style={titleStyle}
             >
               DESIGNER
             </motion.h1>

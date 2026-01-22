@@ -20,6 +20,12 @@ export default function Testimonials() {
   const { setCursorType, resetCursor } = useCursor();
   const { theme } = useTheme();
 
+  const titleStyle = {
+    fontFamily: "'Haffer', sans-serif",
+    lineHeight: "100%",
+    letterSpacing: "-0.03em",
+  };
+
   // Animated counter component
   const AnimatedCounter = ({ value, suffix = "" }) => {
     const ref = useRef(null);
@@ -92,6 +98,7 @@ export default function Testimonials() {
             className={`text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight uppercase mb-4 ${
               theme === "dark" ? "text-white" : "text-gray-900"
             }`}
+
           >
             What My Clients Say
           </motion.h2>

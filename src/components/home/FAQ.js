@@ -21,6 +21,12 @@ export default function FAQ() {
   const faqContainerRef = useRef(null);
   const { theme } = useTheme();
 
+  const titleStyle = {
+    fontFamily: "'Haffer', sans-serif",
+    lineHeight: "100%",
+    letterSpacing: "-0.03em",
+  };
+
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
@@ -70,6 +76,7 @@ export default function FAQ() {
               className={`text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight uppercase leading-tight ${
                 theme === "dark" ? "text-white" : "text-gray-900"
               }`}
+              style={titleStyle}
             >
               Frequently Asked Questions
             </motion.h2>
