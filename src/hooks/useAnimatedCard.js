@@ -167,6 +167,7 @@ export function useAnimatedCard() {
 
   return {
     registerSection,
+    sectionsRef,
     animationValues: {
       x,
       y,

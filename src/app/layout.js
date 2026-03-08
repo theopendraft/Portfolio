@@ -9,6 +9,10 @@ import SharedAnimatedCard from "@/components/shared/SharedAnimatedCard";
 import { AnimatedCardProvider } from "@/contexts/AnimatedCardContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import NoiseOverlay from "@/components/shared/NoiseOverlay";
+import ScrollProgress from "@/components/shared/ScrollProgress";
+import LoadingScreen from "@/components/shared/LoadingScreen";
+import ThemeToggle from "@/components/shared/ThemeToggle";
+import ScrollToTop from "@/components/shared/ScrollToTop";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -56,6 +60,9 @@ export const metadata = {
     "UI/UX",
   ],
   authors: [{ name: "Pankaj Yadav" }],
+  icons: {
+    icon: "/logo/py_dark.svg",
+  },
   openGraph: {
     title: "Pankaj Yadav | Full-Stack Developer & Digital Designer",
     description:
@@ -71,6 +78,10 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <CursorProvider>
             <AnimatedCardProvider>
+              <ScrollToTop />
+              <LoadingScreen />
+              <ThemeToggle />
+              <ScrollProgress />
               <CursorFollower />
               <NoiseOverlay />
               <SharedAnimatedCard />

@@ -1,55 +1,51 @@
 /**
- * Testimonials Data
- * Mix of client testimonials and highlight stats
+ * Recognition & Impact Data
+ * Real achievements, metrics, and contributions
  */
 
 export const testimonials = [
   {
     id: 1,
-    type: "testimonial",
-    name: "Sarah Johnson",
-    role: "CEO, TechStart Inc",
-    avatar: "/images/avatars/sarah.jpg", // TODO: Replace with actual image
-    rating: 5,
-    text: "Pankaj transformed our entire digital presence. His attention to detail and ability to understand our vision was exceptional. The results exceeded our expectations.",
+    type: "achievement",
+    title: "Smart India Hackathon 2024",
+    badge: "National Finalist",
+    description:
+      "Ranked in the top 2 nationally among 100+ competing teams. Built a production-grade government-scale solution as team lead within 36 hours - one of India's largest national hackathons.",
   },
   {
     id: 2,
     type: "stat",
-    value: "98%",
-    label: "Client Satisfaction Rate",
+    value: "25%",
+    label: "Backend Performance Gain",
   },
   {
     id: 3,
-    type: "testimonial",
-    name: "Michael Chen",
-    role: "Founder, Innovate Labs",
-    avatar: "/images/avatars/michael.jpg", // TODO: Replace with actual image
-    rating: 5,
-    text: "Working with Pankaj was a game-changer for our startup. His technical expertise and creative problem-solving helped us launch on time and under budget.",
+    type: "achievement",
+    title: "Adrig AI Technologies",
+    badge: "Software Developer",
+    description:
+      "Delivered end-to-end full-stack features for enterprise AI workflow systems. Reduced recurring production defects by 30% and improved API response time by 25% through SQL optimization and state management refactoring.",
   },
   {
     id: 4,
-    type: "testimonial",
-    name: "Emily Rodriguez",
-    role: "Product Manager, CloudFlow",
-    avatar: "/images/avatars/emily.jpg", // TODO: Replace with actual image
-    rating: 5,
-    text: "Exceptional quality and professionalism. Pankaj delivered a beautiful, performant application that our users love. Highly recommend!",
+    type: "achievement",
+    title: "The Creator Dan",
+    badge: "Founder",
+    description:
+      "Founded a creative-tech student community bridging design thinking and software engineering - cultivating an active space for student makers, builders, and open-source contributors.",
   },
   {
     id: 5,
     type: "stat",
-    value: "200%",
-    label: "Average Growth for Clients",
+    value: "30%",
+    label: "Production Defect Reduction",
   },
   {
     id: 6,
-    type: "testimonial",
-    name: "David Kim",
-    role: "CTO, DataStream",
-    avatar: "/images/avatars/david.jpg", // TODO: Replace with actual image
-    rating: 5,
-    text: "Pankaj's ability to translate complex requirements into elegant solutions is remarkable. He's now our go-to developer for critical projects.",
+    type: "achievement",
+    title: "Google Developer Group",
+    badge: "Co-Organiser",
+    description:
+      "Co-organised developer workshops, tech talks, and open-source events at the GDG chapter of SATI - fostering technical growth and developer culture across 200+ student members.",
   },
 ];

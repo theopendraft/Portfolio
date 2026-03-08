@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useCursor } from "@/hooks/useCursor";
 import { useTheme } from "@/contexts/ThemeContext";
+import Image from "next/image";
 import { featuredProjects } from "@/data/projects";
 
 /**
@@ -55,6 +56,7 @@ export default function FeaturedProjects() {
 
   return (
     <section
+      id="projects"
       className={`relative transition-colors duration-500 ${
         theme === "dark" ? "bg-transparent" : "bg-gray-100"
       }`}
@@ -117,48 +119,39 @@ export default function FeaturedProjects() {
                   }`}
                 >
                   {/* Left: Project Image */}
-                  <div
-                    className={`relative aspect-4/3 lg:aspect-square rounded-2xl overflow-hidden ${
-                      theme === "dark" ? "bg-zinc-800" : "bg-gray-200"
-                    }`}
-                  >
-                    {/* Placeholder for project image */}
-                    <div
-                      className={`absolute inset-0 flex items-center justify-center ${
-                        theme === "dark"
-                          ? "bg-linear-to-br from-zinc-700 to-zinc-900"
-                          : "bg-linear-to-br from-gray-300 to-gray-400"
-                      }`}
-                    >
-                      <div className="text-center">
-                        <div
-                          className={`w-24 h-24 mx-auto mb-4 rounded-xl ${
-                            theme === "dark" ? "bg-zinc-700" : "bg-gray-400"
-                          }`}
-                        />
-                        <p
-                          className={`text-sm ${
-                            theme === "dark" ? "text-zinc-500" : "text-gray-500"
-                          }`}
-                        >
-                          Project Image
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Overlay gradient */}
+                  <div className="relative aspect-4/3 lg:aspect-square rounded-2xl overflow-hidden bg-zinc-900">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width:1024px) 100vw, 40vw"
+                    />
                     <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
 
                   {/* Right: Project Info */}
-                  <div className="space-y-6">
-                    {/* Project Number */}
-                    <div
-                      className={`text-sm font-bold tracking-widest uppercase ${
-                        theme === "dark" ? "text-[#C4F047]" : "text-blue-500"
-                      }`}
-                    >
-                      Project {String(index + 1).padStart(2, "0")}
+                  <div className="space-y-5">
+                    {/* Badge + Number row */}
+                    <div className="flex items-center gap-3">
+                      {project.badge && (
+                        <span
+                          className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full ${
+                            theme === "dark"
+                              ? "bg-[#C4F047]/10 text-[#C4F047]"
+                              : "bg-blue-100 text-blue-600"
+                          }`}
+                        >
+                          {project.badge}
+                        </span>
+                      )}
+                      <span
+                        className={`text-xs font-bold tracking-widest uppercase ${
+                          theme === "dark" ? "text-zinc-600" : "text-gray-400"
+                        }`}
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
                     </div>
 
                     {/* Title */}
@@ -173,9 +166,20 @@ export default function FeaturedProjects() {
                       {project.title}
                     </h3>
 
+                    {/* Subtitle */}
+                    {project.subtitle && (
+                      <p
+                        className={`text-sm font-medium uppercase tracking-wider ${
+                          theme === "dark" ? "text-zinc-500" : "text-gray-400"
+                        }`}
+                      >
+                        {project.subtitle}
+                      </p>
+                    )}
+
                     {/* Description */}
                     <p
-                      className={`text-lg leading-relaxed ${
+                      className={`text-base leading-relaxed ${
                         theme === "dark" ? "text-zinc-400" : "text-gray-600"
                       }`}
                     >
@@ -187,7 +191,7 @@ export default function FeaturedProjects() {
                       {project.techStack.map((tech, i) => (
                         <span
                           key={i}
-                          className={`px-4 py-2 text-sm rounded-full border ${
+                          className={`px-3 py-1.5 text-xs font-medium rounded-full border ${
                             theme === "dark"
                               ? "bg-zinc-800 text-zinc-300 border-zinc-700"
                               : "bg-gray-100 text-gray-700 border-gray-300"
@@ -198,30 +202,45 @@ export default function FeaturedProjects() {
                       ))}
                     </div>
 
-                    {/* View Project Link */}
-                    <div
-                      className={`flex items-center gap-2 transition-colors duration-300 pt-4 ${
-                        theme === "dark"
-                          ? "text-white group-hover:text-[#C4F047]"
-                          : "text-gray-900 group-hover:text-blue-500"
-                      }`}
-                    >
-                      <span className="text-sm font-semibold uppercase tracking-wider">
-                        View Project
-                      </span>
-                      <svg
-                        className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                    {/* Links Row */}
+                    <div className="flex items-center gap-4 pt-2">
+                      <div
+                        className={`flex items-center gap-2 transition-colors duration-300 ${
+                          theme === "dark"
+                            ? "text-white group-hover:text-[#C4F047]"
+                            : "text-gray-900 group-hover:text-blue-500"
+                        }`}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
+                        <span className="text-sm font-semibold uppercase tracking-wider">
+                          View Project
+                        </span>
+                        <svg
+                          className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </div>
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className={`flex items-center gap-1.5 text-sm font-medium transition-colors duration-300 ${
+                            theme === "dark"
+                              ? "text-zinc-600 hover:text-[#C4F047]"
+                              : "text-gray-400 hover:text-blue-500"
+                          }`}
+                        >
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                          </svg>
+                          Source
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -266,7 +285,7 @@ export default function FeaturedProjects() {
       <div
         className={`relative px-8 pb-16 sm:pb-20 text-center transition-colors duration-500 ${
           theme === "dark"
-            ? "bg-linear-to-b from-black to-zinc-950"
+            ? "bg-black-800"
             : "bg-linear-to-b from-gray-100 to-gray-200"
         }`}
       >
@@ -386,48 +405,39 @@ function StickyCard({
             }`}
           >
             {/* Left: Project Image */}
-            <div
-              className={`relative aspect-4/3 lg:aspect-square rounded-2xl overflow-hidden ${
-                theme === "dark" ? "bg-zinc-800" : "bg-gray-200"
-              }`}
-            >
-              {/* Placeholder for project image */}
-              <div
-                className={`absolute inset-0 flex items-center justify-center ${
-                  theme === "dark"
-                    ? "bg-linear-to-br from-zinc-700 to-zinc-900"
-                    : "bg-linear-to-br from-gray-300 to-gray-400"
-                }`}
-              >
-                <div className="text-center">
-                  <div
-                    className={`w-24 h-24 mx-auto mb-4 rounded-xl ${
-                      theme === "dark" ? "bg-zinc-700" : "bg-gray-400"
-                    }`}
-                  />
-                  <p
-                    className={`text-sm ${
-                      theme === "dark" ? "text-zinc-500" : "text-gray-500"
-                    }`}
-                  >
-                    Project Image
-                  </p>
-                </div>
-              </div>
-
-              {/* Overlay gradient */}
+            <div className="relative aspect-4/3 lg:aspect-square rounded-2xl overflow-hidden bg-zinc-900">
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width:1024px) 100vw, 50vw"
+              />
               <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
 
             {/* Right: Project Info */}
-            <div className="space-y-6">
-              {/* Project Number */}
-              <div
-                className={`text-sm font-bold tracking-widest uppercase ${
-                  theme === "dark" ? "text-[#C4F047]" : "text-blue-500"
-                }`}
-              >
-                Project {String(index + 1).padStart(2, "0")}
+            <div className="space-y-5">
+              {/* Badge + Number row */}
+              <div className="flex items-center gap-3">
+                {project.badge && (
+                  <span
+                    className={`text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full ${
+                      theme === "dark"
+                        ? "bg-[#C4F047]/10 text-[#C4F047]"
+                        : "bg-blue-100 text-blue-600"
+                    }`}
+                  >
+                    {project.badge}
+                  </span>
+                )}
+                <span
+                  className={`text-xs font-bold tracking-widest uppercase ${
+                    theme === "dark" ? "text-zinc-600" : "text-gray-400"
+                  }`}
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
               </div>
 
               {/* Title */}
@@ -442,9 +452,20 @@ function StickyCard({
                 {project.title}
               </h3>
 
+              {/* Subtitle */}
+              {project.subtitle && (
+                <p
+                  className={`text-sm font-medium uppercase tracking-wider ${
+                    theme === "dark" ? "text-zinc-500" : "text-gray-400"
+                  }`}
+                >
+                  {project.subtitle}
+                </p>
+              )}
+
               {/* Description */}
               <p
-                className={`text-lg leading-relaxed ${
+                className={`text-base leading-relaxed ${
                   theme === "dark" ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
@@ -456,9 +477,9 @@ function StickyCard({
                 {project.techStack.map((tech, i) => (
                   <span
                     key={i}
-                    className={`px-4 py-2 text-sm rounded-full border ${
+                    className={`px-3 py-1.5 text-xs font-medium rounded-full border ${
                       theme === "dark"
-                        ? "bg-zinc-800 text-zinc-300 border-zinc-700"
+                        ? "bg-black-800 text-zinc-300 border-zinc-700"
                         : "bg-gray-100 text-gray-700 border-gray-300"
                     }`}
                   >
@@ -467,30 +488,45 @@ function StickyCard({
                 ))}
               </div>
 
-              {/* View Project Link */}
-              <div
-                className={`flex items-center gap-2 transition-colors duration-300 pt-4 ${
-                  theme === "dark"
-                    ? "text-white group-hover:text-[#C4F047]"
-                    : "text-gray-900 group-hover:text-blue-500"
-                }`}
-              >
-                <span className="text-sm font-semibold uppercase tracking-wider">
-                  View Project
-                </span>
-                <svg
-                  className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              {/* Links Row */}
+              <div className="flex items-center gap-4 pt-2">
+                <div
+                  className={`flex items-center gap-2 transition-colors duration-300 ${
+                    theme === "dark"
+                      ? "text-white group-hover:text-[#C4F047]"
+                      : "text-gray-900 group-hover:text-blue-500"
+                  }`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
+                  <span className="text-sm font-semibold uppercase tracking-wider">
+                    View Project
+                  </span>
+                  <svg
+                    className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-300"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className={`flex items-center gap-1.5 text-sm font-medium transition-colors duration-300 ${
+                      theme === "dark"
+                        ? "text-zinc-600 hover:text-[#C4F047]"
+                        : "text-gray-400 hover:text-blue-500"
+                    }`}
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                    </svg>
+                    Source
+                  </a>
+                )}
               </div>
             </div>
           </div>

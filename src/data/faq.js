@@ -50,6 +50,6 @@ export const faqs = [
     id: 8,
     question: "What makes you different from other developers?",
     answer:
-      "I combine technical expertise with strong design sensibility and business understanding. I don't just write code—I solve problems. My focus is on delivering solutions that look great, perform well, and actually move your business forward.",
+      "I combine technical expertise with strong design sensibility and business understanding. I don't just write code-I solve problems. My focus is on delivering solutions that look great, perform well, and actually move your business forward.",
   },
 ];

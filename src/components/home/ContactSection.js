@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useCursor } from "@/hooks/useCursor";
 import { useTheme } from "@/contexts/ThemeContext";
 import ShapeBlur from "@/components/shared/ShapeBlur";
@@ -35,7 +36,7 @@ export default function ContactSection() {
   };
 
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState(null); // 'success' | 'error' | null
+  const [status, setStatus] = useState(null); // 'success' | 'error' | 'send_error' | 'loading' | null
 
   const services = [
     "Web Development",
@@ -79,32 +80,33 @@ export default function ContactSection() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) { setStatus("error"); return; }
 
-    if (validateForm()) {
-      // Simulate form submission (frontend-only)
-      console.log("Form data:", formData);
-      setStatus("success");
-
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        service: "",
-        message: "",
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
-      // Clear success message after 5 seconds
-      setTimeout(() => setStatus(null), 5000);
-    } else {
-      setStatus("error");
+      if (res.ok) {
+        setStatus("success");
+        setFormData({ name: "", email: "", service: "", message: "" });
+        setTimeout(() => setStatus(null), 5000);
+      } else {
+        setStatus("send_error");
+      }
+    } catch {
+      setStatus("send_error");
     }
   };
 
   return (
     <section
-      className={`relative px-4 sm:px-8 py-16 sm:py-24 lg:py-32 transition-colors duration-500 ${
+      id="contact"
+      className={`relative px-6 sm:px-10 py-16 sm:py-24 lg:py-32 transition-colors duration-500 ${
         theme === "dark" ? "bg-transparent" : "bg-white"
       }`}
     >
@@ -115,30 +117,19 @@ export default function ContactSection() {
           <div className="flex justify-center lg:justify-start">
             <div className="relative w-full max-w-md">
               {/* Portrait Card */}
-              <div
-                className={`relative w-full  rounded-3xl overflow-hidden border aspect-3/4 ${
-                  theme === "dark"
-                    ? "bg-linear-to-br from-zinc-800 to-zinc-900 border-zinc-700"
-                    : "bg-linear-to-br from-gray-200 to-gray-300 border-gray-400"
-                }`}
-              >
-                {/* Placeholder for portrait image */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <div className="text-6xl mb-4">👤</div>
-                    <p
-                      className={`uppercase tracking-wider text-sm ${
-                        theme === "dark" ? "text-zinc-500" : "text-gray-500"
-                      }`}
-                    >
-                      Portrait Image
-                    </p>
-                  </div>
-                </div>
+              <div className="relative w-full rounded-3xl overflow-hidden border-0 aspect-3/4 bg-zinc-900">
+                <Image
+                  src="/image/Pankaj_Yadav_4.jpg"
+                  alt="Pankaj Yadav"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width:1024px) 90vw, 40vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
               </div>
 
               {/* Shape blur just behind the Hi badge */}
-              <div className="absolute -bottom-47 -left-47 w-114 h-114 pointer-events-none">
+              <div className="absolute -bottom-47 lg:-left-47 w-114 h-114 pointer-events-none hidden lg:block">
                 <ShapeBlur
                   variation={0}
                   pixelRatioProp={pixelRatio}
@@ -162,17 +153,17 @@ export default function ContactSection() {
                   ease: "easeInOut",
                   repeatDelay: 0.5,
                 }}
-                className={`absolute -bottom-6 -left-6 w-32 h-32 rounded-full flex items-center justify-center shadow-xl z-10 ${
+                className={`absolute -bottom-6 -left-4 lg:-left-6 w-24 h-24 lg:w-32 lg:h-32 rounded-full flex items-center justify-center shadow-xl z-10 ${
                   theme === "dark" ? "bg-[#C4F047]" : "bg-blue-500"
                 }`}
                 aria-hidden="true"
               >
                 <span
-                  className={`text-5xl font-bold ${
+                  className={`text-4xl lg:text-5xl font-bold${
                     theme === "dark" ? "text-black" : "text-white"
                   }`}
                 >
-                  Hi
+                  ᯓ➤
                 </span>
               </motion.div>
             </div>
@@ -207,7 +198,7 @@ export default function ContactSection() {
                   theme === "dark" ? "text-zinc-400" : "text-gray-600"
                 }`}
               >
-                Let's build something impactful together—whether it's your
+                Let's build something impactful together-whether it's your
                 brand, your website, or your next big idea.
               </motion.p>
             </div>
@@ -311,8 +302,8 @@ export default function ContactSection() {
                     focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300
                     ${
                       theme === "dark"
-                        ? `bg-zinc-900/50 text-white focus:ring-[#C4F047] ${errors.service ? "border-red-500" : "border-zinc-800"} ${!formData.service ? "text-zinc-600" : ""}`
-                        : `bg-gray-50 text-gray-900 focus:ring-blue-500 ${errors.service ? "border-red-500" : "border-gray-300"} ${!formData.service ? "text-gray-400" : ""}`
+                        ? `bg-zinc-900/50 focus:ring-[#C4F047] ${errors.service ? "border-red-500" : "border-zinc-800"} ${!formData.service ? "text-zinc-600" : "text-white"}`
+                        : `bg-gray-50 focus:ring-blue-500 ${errors.service ? "border-red-500" : "border-gray-300"} ${!formData.service ? "text-gray-400" : "text-gray-900"}`
                     }
                   `}
                 >
@@ -385,21 +376,34 @@ export default function ContactSection() {
                 </motion.div>
               )}
 
+              {status === "send_error" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl"
+                >
+                  <p className="text-red-400 text-sm">
+                    Something went wrong. Email me directly at siddarth8818@gmail.com
+                  </p>
+                </motion.div>
+              )}
+
               {/* Submit Button */}
               <div className="pt-2">
                 <motion.button
                   type="submit"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  disabled={status === "loading"}
+                  whileHover={{ scale: status === "loading" ? 1 : 1.02 }}
+                  whileTap={{ scale: status === "loading" ? 1 : 0.98 }}
                   onMouseEnter={() => setCursorType("active")}
                   onMouseLeave={resetCursor}
-                  className={`px-10 py-4 bg-transparent border-2 font-bold text-base uppercase tracking-wider rounded-full transition-all duration-300 ${
+                  className={`px-10 py-4 bg-transparent border-2 font-bold text-base uppercase tracking-wider rounded-full transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed ${
                     theme === "dark"
-                      ? "border-[#C4F047] text-[#C4F047] hover:bg-[#C4F047] hover:text-black "
-                      : "border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white "
+                      ? "border-[#C4F047] text-[#C4F047] hover:bg-[#C4F047] hover:text-black"
+                      : "border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
                   }`}
                 >
-                  Submit
+                  {status === "loading" ? "Sending..." : "Submit"}
                 </motion.button>
               </div>
             </motion.form>

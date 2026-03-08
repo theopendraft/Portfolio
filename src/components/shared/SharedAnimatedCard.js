@@ -1,184 +1,113 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAnimatedCardContext } from "@/contexts/AnimatedCardContext";
 import ShapeBlur from "@/components/shared/ShapeBlur";
 
 /**
- * SharedAnimatedCard - Floating card with section-based rotations
+ * SharedAnimatedCard - fixed floating card that flips between sections.
  *
- * Features:
- * - Only visible on home page
- * - 3 different images that flip (next image appears behind)
- * - Flips based on actual section positions
- * - Complete 180° rotation between each section
+ * Only visible on the home page ("/"). Uses usePathname() so it correctly
+ * hides on client-side navigation to /about, /projects, etc.
+ *
+ * Flip logic:
+ *  HERO  (scroll 0 → heroEnd)    : rotateY 0 → 180°  - front face visible
+ *  SKILLS (heroEnd → skillsEnd)  : rotateY 180 → 360° - back face visible
+ *  ABOUT  (> skillsEnd)          : settled at 360°
+ *
+ * Front face (backface-visibility:hidden):
+ *   Shows Pankaj_Yadav.jpg (hero), swaps to Pankaj_Yadav_3.jpg (about) at 270° edge-on.
+ * Back face (rotateY 180deg + backface-visibility:hidden):
+ *   Always shows Pankaj_Yadav_2.jpg (skills).
  */
 export default function SharedAnimatedCard() {
   const { theme } = useTheme();
-  const [isMobile, setIsMobile] = useState(false);
-  const [isHomePage, setIsHomePage] = useState(true);
-  const { sections } = useAnimatedCardContext();
+  const { sectionsRef, isMobile } = useAnimatedCardContext();
+  const pathname = usePathname();
+
+  const [isClient, setIsClient] = useState(false);
+  const [sectionPositions, setSectionPositions] = useState({
+    heroEnd: 900,
+    skillsEnd: 1800,
+  });
+  // 0 = hero image, 2 = about image - swapped while front face is edge-on
+  const [faceAIndex, setFaceAIndex] = useState(0);
+
   const pixelRatio =
     typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
 
   const { scrollY } = useScroll();
 
-  // Get section positions
-  const heroSection = sections?.get("HERO");
-  const whatICanDoSection = sections?.get("WHATICANDO");
-  const aboutSection = sections?.get("ABOUT");
+  useEffect(() => { setIsClient(true); }, []);
 
-  // Dynamic section positions
-  const [sectionPositions, setSectionPositions] = useState({
-    heroEnd: 800,
-    whatICanDoEnd: 1600,
-    aboutEnd: 2100,
-  });
-
+  // ── Section position tracker ───────────────────────────────────────────
   useEffect(() => {
-    const updatePositions = () => {
-      if (heroSection && whatICanDoSection && aboutSection) {
-        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
-        const whatICanDoBottom =
-          whatICanDoSection.offsetTop + whatICanDoSection.offsetHeight;
-        const aboutBottom = aboutSection.offsetTop + aboutSection.offsetHeight;
+    if (!isClient) return;
 
+    const update = () => {
+      const s = sectionsRef.current;
+      const hero = s["HERO"];
+      const skills = s["SKILLS"];
+      if (hero && skills) {
         setSectionPositions({
-          heroEnd: heroBottom,
-          whatICanDoEnd: whatICanDoBottom,
-          aboutEnd: aboutBottom,
+          heroEnd: hero.offsetTop + hero.offsetHeight,
+          skillsEnd: skills.offsetTop + skills.offsetHeight,
         });
       }
     };
 
-    updatePositions();
-    window.addEventListener("resize", updatePositions);
-    window.addEventListener("load", updatePositions);
-    const timer = setTimeout(updatePositions, 500);
+    update();
+    const t = setTimeout(update, 600);
+    window.addEventListener("resize", update);
+    return () => { clearTimeout(t); window.removeEventListener("resize", update); };
+  }, [isClient, sectionsRef]);
 
-    return () => {
-      window.removeEventListener("resize", updatePositions);
-      window.removeEventListener("load", updatePositions);
-      clearTimeout(timer);
-    };
-  }, [heroSection, whatICanDoSection, aboutSection]);
+  // ── Scroll-driven transforms ───────────────────────────────────────────
+  const { heroEnd, skillsEnd } = sectionPositions;
 
-  // Check if on home page
+  // X: 0 (hero center) → 260px right (skills/about right column)
+  const xRaw = useTransform(
+    scrollY,
+    [heroEnd * 0.5, heroEnd, skillsEnd],
+    [0, 260, 260],
+  );
+  const x = useSpring(xRaw, { stiffness: 80, damping: 22, mass: 0.8 });
+
+  const yRaw = useTransform(scrollY, [0, heroEnd], [0, -30]);
+  const y = useSpring(yRaw, { stiffness: 80, damping: 22, mass: 0.8 });
+
+  // Full 0° → 360° flip across both sections
+  const rotateYRaw = useTransform(
+    scrollY,
+    [heroEnd * 0.2, heroEnd, heroEnd * 1.05, skillsEnd],
+    [0, 180, 180, 360],
+  );
+  const rotateY = useSpring(rotateYRaw, { stiffness: 60, damping: 18, mass: 0.6 });
+
+  // Fade out just after skills section ends
+  const opacityRaw = useTransform(scrollY, [skillsEnd, skillsEnd + 280], [1, 0]);
+  const opacity = useSpring(opacityRaw, { stiffness: 120, damping: 28 });
+
+  // ── Swap front-face image at 270° (card is edge-on, invisible) ─────────
   useEffect(() => {
-    setIsHomePage(window.location.pathname === "/");
-  }, []);
+    const switchPoint = heroEnd + (skillsEnd - heroEnd) * 0.5;
+    return scrollY.on("change", (v) => setFaceAIndex(v >= switchPoint ? 2 : 0));
+  }, [scrollY, heroEnd, skillsEnd]);
 
-  // Detect mobile
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Position transforms
-  const x = useTransform(
-    scrollY,
-    [0, sectionPositions.heroEnd, sectionPositions.aboutEnd],
-    [0, 400, 400],
-  );
-
-  // Move with AboutMe section instead of staying fixed
-  const y = useTransform(
-    scrollY,
-    [0, sectionPositions.heroEnd, sectionPositions.whatICanDoEnd, sectionPositions.aboutEnd],
-    [0, -50, -50, -50],
-  );
-
-  // Complete flip between sections: 0° → 180° → 360°
-  const rotateY = useTransform(
-    scrollY,
-    [
-      0,
-      sectionPositions.heroEnd,
-      sectionPositions.whatICanDoEnd,
-      sectionPositions.aboutEnd,
-    ],
-    [0, 180, 360, 360],
-  );
-
-  // Keep visible throughout, no fade
-  const opacity = useTransform(
-    scrollY,
-     [0, sectionPositions.whatICanDoEnd, sectionPositions.aboutEnd],
-    [1, 1, 0],
-  );
-
-  const scale = useTransform(
-    scrollY,
-    [0, sectionPositions.heroEnd, sectionPositions.aboutEnd],
-    [1, 1, 1],
-  );
-
-  // Track current section for content
-  const [currentSection, setCurrentSection] = useState(0);
-  const [displaySection, setDisplaySection] = useState(0);
-
-  useEffect(() => {
-    return scrollY.on("change", (latest) => {
-      // Update current section
-      if (latest < sectionPositions.heroEnd) {
-        setCurrentSection(0);
-      } else if (latest < sectionPositions.whatICanDoEnd) {
-        setCurrentSection(1);
-      } else {
-        setCurrentSection(2);
-      }
-
-      // Calculate rotation progress and change content at 90° (halfway)
-      const heroProgress = (latest / sectionPositions.heroEnd) * 180;
-      const whatICanDoProgress =
-        ((latest - sectionPositions.heroEnd) /
-          (sectionPositions.whatICanDoEnd - sectionPositions.heroEnd)) *
-          180 +
-        180;
-
-      if (latest < sectionPositions.heroEnd) {
-        // Hero section: 0° to 180°
-        setDisplaySection(heroProgress > 90 ? 1 : 0);
-      } else if (latest < sectionPositions.whatICanDoEnd) {
-        // WhatICanDo section: 180° to 360°
-        setDisplaySection(whatICanDoProgress > 270 ? 2 : 1);
-      } else {
-        setDisplaySection(2);
-      }
-    });
-  }, [scrollY, sectionPositions]);
-
-  // 3 different card contents with images
-  const cardContents = [
-    {
-      image: "/images/hero-card.jpg", // TODO: Replace with actual image path
-      placeholder: "👤",
-      name: "Pankaj Yadav",
-      subtitle: "Designer & Developer",
-    },
-    {
-      image: "/images/skills-card.jpg", // TODO: Replace with actual image path
-      placeholder: "💼",
-      name: "Skills & Expertise",
-      subtitle: "What I Can Do",
-    },
-    {
-      image: "/images/about-card.jpg", // TODO: Replace with actual image path
-      placeholder: "🎯",
-      name: "About Me",
-      subtitle: "My Story",
-    },
+  // ── Card contents ──────────────────────────────────────────────────────
+  const faces = [
+    { src: "/image/Pankaj_Yadav.jpg",   sub: "Full-Stack Engineer",  label: "Pankaj Yadav"    }, // 0
+    { src: "/image/Pankaj_Yadav_2.jpg", sub: "What I Build With",    label: "Skills & Craft"  }, // 1 (back)
+    { src: "/image/Pankaj_Yadav_3.jpg", sub: "My Story & Journey",   label: "About Me"        }, // 2
   ];
 
-  // Get next section content for "behind" effect
-  const nextSection = displaySection < 2 ? displaySection + 1 : displaySection;
-
-  // Don't render if mobile or not home page
-  if (isMobile || !isHomePage) return null;
+  // ── Guard ──────────────────────────────────────────────────────────────
+  // Only render on home page, desktop, after hydration
+  if (!isClient || isMobile || pathname !== "/") return null;
 
   return (
     <motion.div
@@ -186,99 +115,119 @@ export default function SharedAnimatedCard() {
       style={{
         x,
         y,
-        scale,
         opacity,
         translateX: "-50%",
         translateY: "-50%",
-        perspective: 1200,
-        transformStyle: "preserve-3d",
-        willChange: "transform",
+        perspective: 1400,
       }}
     >
+      {/* Flip container */}
       <motion.div
-        className="relative w-80 h-120"
-        style={{
-          rotateY,
-          transformStyle: "preserve-3d",
-        }}
+        className="relative w-72 h-[440px]"
+        style={{ rotateY, transformStyle: "preserve-3d" }}
       >
-        {/* Front/Back Card - Single card with changing content */}
-        <motion.div
-          className={`absolute inset-0 rounded-2xl overflow-hidden border-2 shadow-2xl ${
-            theme === "dark"
-              ? "bg-linear-to-br from-zinc-800 to-zinc-900 border-lime-400/20"
-              : "bg-linear-to-br from-white to-gray-100 border-blue-400/30"
-          }`}
+        {/* FRONT FACE - hero → about */}
+        <CardFace face={faces[faceAIndex]} theme={theme} front />
+
+        {/* BACK FACE - always skills, pre-rotated 180° */}
+        <CardFace face={faces[1]} theme={theme} />
+
+        {/* Shape blur glow */}
+        <div
+          className="absolute pointer-events-none"
           style={{
-            transformStyle: "preserve-3d",
+            bottom: "-7.7rem",
+            right: "-8.1rem",
+            width: "18rem",
+            height: "18rem",
+            backfaceVisibility: "hidden",
           }}
         >
-          {/* Image Container */}
-          <div className="absolute inset-0">
-            {/* Image Placeholder - Replace with actual image */}
-            <div
-              className={`w-full h-full flex items-center justify-center ${
-                theme === "dark"
-                  ? "bg-linear-to-br from-zinc-700 to-zinc-800"
-                  : "bg-linear-to-br from-gray-200 to-gray-300"
-              }`}
-            >
-              {/* TODO: Replace with <Image src={cardContents[displaySection].image} /> */}
-              <div className="text-9xl">
-                {cardContents[displaySection].placeholder}
-              </div>
-            </div>
-          </div>
+          <ShapeBlur
+            variation={0}
+            pixelRatioProp={pixelRatio}
+            shapeSize={0.5}
+            roundness={0.5}
+            borderSize={0.05}
+            circleSize={0.25}
+            circleEdge={1}
+            theme={theme}
+          />
+        </div>
 
-          {/* Overlay with gradient and text */}
-          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent flex items-end">
-            <div className="w-full p-8 text-white">
-              <h3 className="text-2xl font-bold mb-2">
-                {cardContents[displaySection].name}
-              </h3>
-              <p className="text-sm text-zinc-300">
-                {cardContents[displaySection].subtitle}
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
-                      {/* Shape blur just behind the Hi badge */}
-        <div className="absolute -bottom-36 -left-37 w-85 h-85 pointer-events-none">
-                        <ShapeBlur
-                          variation={0}
-                          pixelRatioProp={pixelRatio}
-                          shapeSize={0.5}
-                          roundness={0.5}
-                          borderSize={0.05}
-                          circleSize={0.25}
-                          circleEdge={1}
-                          theme={theme}
-                        />
-         </div>
-
-        {/* Hello Icon (Bottom-left) */}
+        {/* Floating wave badge */}
         <motion.div
-          animate={{
-            y: [0, -8, 0],
-          }}
-          transition={{
-            duration: 2.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className={`absolute -bottom-6 -left-6 w-24 h-24 rounded-full flex items-center justify-center shadow-xl ${
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          className={`absolute -bottom-6 -right-6 w-20 h-20 rounded-full flex items-center justify-center shadow-xl ${
             theme === "dark" ? "bg-[#C4F047]" : "bg-blue-500"
           }`}
           style={{
-            transformStyle: "preserve-3d",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
             transform: "translateZ(50px)",
           }}
           aria-hidden="true"
         >
-          <span className="text-5xl">👋</span>
+          <span className="text-4xl">👋</span>
         </motion.div>
       </motion.div>
     </motion.div>
+  );
+}
+
+// ── Card face component ────────────────────────────────────────────────────
+function CardFace({ face, theme, front = false }) {
+  const isDark = theme === "dark";
+
+  return (
+    <div
+      className={`absolute inset-0 rounded-2xl overflow-hidden border shadow-2xl ${
+        isDark
+          ? "bg-zinc-900 border-zinc-700/50"
+          : "bg-gray-100 border-gray-200"
+      }`}
+      style={{
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+        // Back face is pre-rotated 180° so it starts hidden
+        transform: front ? undefined : "rotateY(180deg)",
+      }}
+    >
+      {/* Portrait image */}
+      <div className="relative w-full h-full">
+        <Image
+          src={face.src}
+          alt={face.label}
+          fill
+          className="object-cover object-top"
+          sizes="288px"
+          priority={front}
+        />
+
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+
+        {/* Text label */}
+        <div className="absolute bottom-0 left-0 right-0 px-5 pb-5">
+          <p
+            className="text-[10px] uppercase tracking-[0.25em] font-medium text-white/60 mb-1"
+          >
+            {face.sub}
+          </p>
+          <h3
+            className="text-lg font-bold text-white leading-tight"
+            style={{ fontFamily: "'Haffer', sans-serif" }}
+          >
+            {face.label}
+          </h3>
+          <div
+            className={`mt-2 w-6 h-1 rounded-full ${
+              isDark ? "bg-[#C4F047]" : "bg-blue-400"
+            }`}
+          />
+        </div>
+      </div>
+    </div>
   );
 }

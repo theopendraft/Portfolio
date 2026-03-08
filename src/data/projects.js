@@ -1,43 +1,54 @@
 /**
- * Featured Projects Data
- * Each project showcased in the sticky card stack
+ * Featured Projects Data - Real projects by Pankaj Yadav
  */
 
 export const featuredProjects = [
   {
     id: 1,
-    title: "E-Commerce Platform",
+    title: "Aladdyn",
+    subtitle: "AI-Powered Multi-Service SaaS",
     shortDescription:
-      "A modern shopping experience with real-time inventory management and seamless checkout flow",
-    image: "/images/projects/ecommerce.jpg", // TODO: Replace with actual image
-    techStack: ["Next.js", "Stripe", "PostgreSQL", "Tailwind"],
-    link: "https://example.com/project1",
+      "Production SaaS platform powering AI-driven campaign generation, content automation, and scheduling pipelines. Built modular APIs separating intelligence, storage, and automation layers with structured relational schemas.",
+    techStack: ["React", "Node.js", "Express", "Prisma", "PostgreSQL"],
+    link: "https://aladdyn.io/",
+    github: null,
+    badge: "Live Product",
+    image: "/project/aladdyn.png",
   },
   {
     id: 2,
-    title: "Design System",
+    title: "GoMapper",
+    subtitle: "Tracking & Visualization System",
     shortDescription:
-      "Comprehensive component library and design tokens for enterprise-scale applications",
-    image: "/images/projects/design-system.jpg", // TODO: Replace with actual image
-    techStack: ["React", "Storybook", "TypeScript", "Figma"],
-    link: "https://example.com/project2",
+      "Interactive tracking and geospatial visualization platform featuring dynamic React dashboards, real-time REST integrations, and scalable multi-location data models with optimized frontend rendering.",
+    techStack: ["React", "Node.js", "REST APIs", "PostgreSQL"],
+    link: "https://gomapper.tech",
+    github: "https://github.com/theopendraft/GoMapper",
+    badge: "Open Source",
+    image: "/project/gomapper.png",
   },
   {
     id: 3,
-    title: "Analytics Dashboard",
+    title: "MealBox",
+    subtitle: "Full-Stack Management Platform",
     shortDescription:
-      "Real-time data visualization platform for tracking key business metrics and insights",
-    image: "/images/projects/analytics.jpg", // TODO: Replace with actual image
-    techStack: ["Vue", "D3.js", "Node.js", "MongoDB"],
-    link: "https://example.com/project3",
+      "Meal management platform with role-based access control, normalized billing schemas, and rule-based invoice automation across secured REST endpoints with JWT authentication.",
+    techStack: ["Node.js", "Express", "PostgreSQL", "JWT", "REST APIs"],
+    link: "https://mealboxes.vercel.app/",
+    github: "https://github.com/theopendraft/MealBox",
+    badge: "Open Source",
+    image: "/project/mealbox.png",
   },
   {
     id: 4,
-    title: "Mobile Banking App",
+    title: "Adrig AI Technologies",
+    subtitle: "Official Company Website",
     shortDescription:
-      "Secure and intuitive mobile banking experience with advanced security features",
-    image: "/images/projects/banking.jpg", // TODO: Replace with actual image
-    techStack: ["React Native", "Firebase", "Plaid API"],
-    link: "https://example.com/project4",
+      "Designed and developed the official website for Adrig AI Technologies — a production Next.js 16 App Router site built with TypeScript and Tailwind CSS, focusing on performance, clean design, and responsive layout.",
+    techStack: ["Next.js 16", "TypeScript", "Tailwind CSS", "ESLint"],
+    link: "https://www.adrig.co.in/",
+    github: null,
+    badge: "Live Product",
+    image: "/project/adrig.png",
   },
 ];

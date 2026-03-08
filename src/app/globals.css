@@ -15,9 +15,20 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #09090b;
     --foreground: #ededed;
   }
+}
+
+/* ThemeContext toggles .dark/.light on <html> — override OS preference */
+html.dark {
+  --background: #09090b;
+  --foreground: #ededed;
+}
+
+html.light {
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
 body {
@@ -49,4 +60,22 @@ h6,
     opacity: 1;
     transform: scale(1);
   }
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  animation: ticker 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
 }

@@ -248,7 +248,7 @@ function GradualBlur(props) {
   return (
     <div
       ref={containerRef}
-      className={`gradual-blur ${config.target === "page" ? "gradual-blur-page" : "gradual-blur-parent"} ${config.className}`}
+      className={`gradual-blur ${config.target === "page" ? "gradual-blur-page" : "gradual-blur-parent"} ${config.position === "bottom" ? "gradual-blur-bottom" : ""} ${config.className}`}
       style={containerStyle}
       onMouseEnter={hoverIntensity ? () => setIsHovered(true) : undefined}
       onMouseLeave={hoverIntensity ? () => setIsHovered(false) : undefined}
@@ -284,7 +284,10 @@ const injectStyles = () => {
   styleElement.textContent = `
   .gradual-blur { pointer-events: none; transition: opacity 0.3s ease-out; }
   .gradual-blur-parent { overflow: hidden; }
-  .gradual-blur-inner { pointer-events: none; }`;
+  .gradual-blur-inner { pointer-events: none; }
+  @media (max-width: 768px) {
+    .gradual-blur-bottom { display: none !important; }
+  }`;
 
   document.head.appendChild(styleElement);
 };
