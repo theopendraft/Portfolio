@@ -160,7 +160,7 @@ export default function ContactSection() {
               >
                 <span
                   className={`text-4xl lg:text-5xl font-bold${
-                    theme === "dark" ? "text-black" : "text-white"
+                    theme === "dark" ? "text-white" : "text-black"
                   }`}
                 >
                   ᯓ➤

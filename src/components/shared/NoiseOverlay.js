@@ -1,21 +1,16 @@
 "use client";
 
-import { useTheme } from "@/contexts/ThemeContext";
 import Noise from "./Noise";
 
 export default function NoiseOverlay() {
-  const { theme } = useTheme();
-
-  if (theme !== "dark") return null;
-
   return (
     <div className="pointer-events-none">
       <Noise
-        patternSize={130}
-        patternScaleX={0.8}
-        patternScaleY={0.6}
+        patternSize={250}
+        patternScaleX={1}
+        patternScaleY={1}
         patternRefreshInterval={2}
-        patternAlpha={10}
+        patternAlpha={15}
       />
     </div>
   );

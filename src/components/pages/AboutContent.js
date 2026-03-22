@@ -65,7 +65,7 @@ const recognition = [
   },
   {
     badge: "Founder",
-    title: "The Creator Dan",
+    title: "The Creator's Den",
     description:
       "Founded a creative-tech student community bridging design thinking and software engineering - cultivating a space for student makers and builders at university level.",
   },
@@ -138,7 +138,7 @@ export default function AboutContent() {
             {/* Giant name */}
             <motion.h1
               {...fadeUp(0.12)}
-              className={`font-bold leading-[0.9] tracking-tight mb-8 ${
+              className={`font-bold leading-[0.9] tracking-tight mb-8  ${
                 theme === "dark" ? "text-white" : "text-gray-900"
               }`}
               style={{ ...titleStyle, fontSize: "clamp(4rem, 10vw, 9rem)" }}
@@ -325,7 +325,7 @@ export default function AboutContent() {
                     theme === "dark" ? "text-zinc-200" : "text-gray-800"
                   }
                 >
-                  The Creator Dan
+                  The Creator's Den
                 </span>
                 , a creative-tech community where student builders share what
                 they're making.

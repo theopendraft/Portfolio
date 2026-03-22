@@ -29,7 +29,7 @@ export const testimonials = [
   {
     id: 4,
     type: "achievement",
-    title: "The Creator Dan",
+    title: "The Creator's Den",
     badge: "Founder",
     description:
       "Founded a creative-tech student community bridging design thinking and software engineering - cultivating an active space for student makers, builders, and open-source contributors.",
